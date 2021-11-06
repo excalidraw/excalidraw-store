@@ -1,0 +1,29 @@
+{
+  "name": "excalidraw-store",
+  "version": "1.0.0",
+  "repository": "git@github.com:excalidraw/excalidraw-store.git",
+  "author": "Panayiotis Lipiridis <lipiridis@gmail.com>",
+  "license": "MIT",
+  "private": true,
+  "devDependencies": {
+    "@types/cors": "2.8.12",
+    "@types/express": "4.17.13",
+    "@types/uuid": "8.3.1",
+    "prettier": "2.4.1",
+    "ts-node-dev": "1.1.8",
+    "typescript": "4.4.4",
+    "esbuild": "0.13.12"
+  },
+  "dependencies": {
+    "@google-cloud/storage": "5.15.5",
+    "cors": "2.8.5",
+    "express": "4.17.1",
+    "uuid": "8.3.2"
+  },
+  "scripts": {
+    "dev": "ts-node-dev index.ts",
+    "build": "node esbuild.js",
+    "start": "node build/index.js",
+    "deploy": "yarn build && gcloud app deploy --project excalidraw-json-dev --no-promote -q"
+  }
+}
