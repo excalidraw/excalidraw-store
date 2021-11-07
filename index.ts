@@ -25,12 +25,16 @@ const app = express();
 
 app.set("json spaces", 2);
 
-const allowOrigins = [
+let allowOrigins = [
   "https://www.excalidraw.com",
   "https://excalidraw.com",
   "excalidraw.vercel.app",
   "https://dai-shi.github.io",
 ];
+
+if (!PROD) {
+  allowOrigins.push("http://localhost:");
+}
 
 const corsGet = cors();
 const corsPost = cors((req, callback) => {
