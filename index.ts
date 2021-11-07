@@ -26,7 +26,6 @@ const app = express();
 app.set("json spaces", 2);
 
 const allowOrigins = [
-  "http://localhost:",
   "https://www.excalidraw.com",
   "https://excalidraw.com",
   "excalidraw.vercel.app",
