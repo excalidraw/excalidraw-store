@@ -50,7 +50,7 @@ const corsPost = cors((req, callback) => {
 });
 
 app.get("/", (req, res) => {
-  res.sendFile(`${__dirname}/index.html`);
+  res.sendFile(`${process.cwd()}/index.html`);
 });
 
 app.get("/.delme", (req, res) => {
@@ -74,7 +74,7 @@ app.get("/api/v2/:key", corsGet, async (req, res) => {
   }
 });
 
-app.post("/api/v2/post/", corsGet, (req, res) => {
+app.post("/api/v2/post/", corsPost, (req, res) => {
   const id = uuid();
   try {
     const blob = bucket.file(id);
