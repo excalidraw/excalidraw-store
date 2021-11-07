@@ -8,7 +8,6 @@
   "devDependencies": {
     "@types/cors": "2.8.12",
     "@types/express": "4.17.13",
-    "@types/morgan": "1.9.3",
     "esbuild": "0.13.12",
     "prettier": "2.4.1",
     "ts-node-dev": "1.1.8",
@@ -18,8 +17,6 @@
     "@google-cloud/storage": "5.15.5",
     "cors": "2.8.5",
     "express": "4.17.1",
-    "isomorphic-fetch": "3.0.0",
-    "morgan": "1.10.0",
     "nanoid": "3.1.30"
   },
   "scripts": {

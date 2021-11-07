@@ -2,8 +2,6 @@ import express from "express";
 import { Storage } from "@google-cloud/storage";
 import { nanoid } from "nanoid";
 import cors from "cors";
-import morgan from "morgan";
-require("isomorphic-fetch");
 
 const PROJECT_NAME = process.env.GOOGLE_CLOUD_PROJECT || "excalidraw-json-dev";
 const PROD = PROJECT_NAME === "excalidraw-json";
@@ -11,7 +9,6 @@ const LOCAL = process.env.NODE_ENV !== "production";
 const BUCKET_NAME = PROD
   ? "excalidraw-json.appspot.com"
   : "excalidraw-json-dev.appspot.com";
-const FALLBACK = "https://20211103t225450-dot-excalidraw-json-dev.appspot.com/";
 
 const storage = new Storage(
   LOCAL
@@ -27,7 +24,6 @@ const bucket = storage.bucket(BUCKET_NAME);
 const app = express();
 
 app.set("json spaces", 2);
-app.use(morgan("tiny"));
 
 const allowOrigins = [
   "http://localhost:",
@@ -69,18 +65,10 @@ app.get("/api/v2/:key", corsGet, async (req, res) => {
     res.setHeader("content-type", "application/octet-stream");
     file.createReadStream().pipe(res);
   } catch (error) {
-    // Fall back to old api call.
-    try {
-      const response = await fetch(FALLBACK + key);
-      res.status(200);
-      res.setHeader("content-type", "application/octet-stream");
-      res.end(Buffer.from(await response.arrayBuffer()));
-    } catch (error) {
-      console.error(error);
-      res.status(404).json({
-        message: "Could not find the file.",
-      });
-    }
+    console.error(error);
+    res.status(404).json({
+      message: "Could not find the file.",
+    });
   }
 });
 
