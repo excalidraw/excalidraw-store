@@ -1,6 +1,5 @@
 import express from "express";
 import { Storage } from "@google-cloud/storage";
-import { Datastore } from "@google-cloud/datastore";
 import { nanoid } from "nanoid";
 import cors from "cors";
 import morgan from "morgan";
@@ -15,14 +14,6 @@ const BUCKET_NAME = PROD
 const FALLBACK_URL = "https://excalidraw-json-dev.uc.r.appspot.com/api/v2/";
 
 const storage = new Storage(
-  LOCAL
-    ? {
-        projectId: PROJECT_NAME,
-        keyFilename: `${__dirname}/keys/${PROJECT_NAME}.json`,
-      }
-    : undefined
-);
-const datastore = new Datastore(
   LOCAL
     ? {
         projectId: PROJECT_NAME,
