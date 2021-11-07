@@ -1,8 +1,10 @@
 import express from "express";
 import { Storage } from "@google-cloud/storage";
-import { v4 as uuidv4 } from "uuid";
+import { Datastore } from "@google-cloud/datastore";
+import { nanoid } from "nanoid";
 import cors from "cors";
 import morgan from "morgan";
+require("isomorphic-fetch");
 
 const PROJECT_NAME = process.env.GOOGLE_CLOUD_PROJECT || "excalidraw-json-dev";
 const PROD = PROJECT_NAME === "excalidraw-json";
@@ -10,6 +12,7 @@ const LOCAL = process.env.NODE_ENV !== "production";
 const BUCKET_NAME = PROD
   ? "excalidraw-json.appspot.com"
   : "excalidraw-json-dev.appspot.com";
+const FALLBACK_URL = "https://excalidraw-json-dev.uc.r.appspot.com/api/v2/";
 
 const storage = new Storage(
   LOCAL
@@ -19,6 +22,15 @@ const storage = new Storage(
       }
     : undefined
 );
+const datastore = new Datastore(
+  LOCAL
+    ? {
+        projectId: PROJECT_NAME,
+        keyFilename: `${__dirname}/keys/${PROJECT_NAME}.json`,
+      }
+    : undefined
+);
+
 const bucket = storage.bucket(BUCKET_NAME);
 
 const app = express();
@@ -58,24 +70,31 @@ app.get("/.delme", (req, res) => {
 });
 
 app.get("/api/v2/:key", corsGet, async (req, res) => {
+  const key = req.params.key;
   try {
-    const key = req.params.key;
     const file = bucket.file(key);
-    const fileSize = (await file.getMetadata())[0].size;
+    await file.getMetadata();
     res.status(200);
     res.setHeader("content-type", "application/octet-stream");
-    res.setHeader("content-length", fileSize);
     file.createReadStream().pipe(res);
   } catch (error) {
-    console.error(error);
-    res.status(404).json({
-      message: "Could not find the file.",
-    });
+    // Fall back to old api call.
+    try {
+      const response = await fetch(FALLBACK_URL + key);
+      res.status(200);
+      res.setHeader("content-type", "application/octet-stream");
+      res.end(Buffer.from(await response.arrayBuffer()));
+    } catch (error) {
+      console.error(error);
+      res.status(404).json({
+        message: "Could not find the file.",
+      });
+    }
   }
 });
 
 app.post("/api/v2/post/", corsPost, (req, res) => {
-  const id = uuid();
+  const id = nanoid();
   try {
     const blob = bucket.file(id);
     const blobStream = blob.createWriteStream({
@@ -110,7 +129,3 @@ app.post("/api/v2/post/", corsPost, (req, res) => {
 
 const port = process.env.PORT || 8080;
 app.listen(port, () => console.log("http://localhost:" + port, "dev =", LOCAL));
-
-function uuid() {
-  return uuidv4().replace(/-/g, "");
-}
