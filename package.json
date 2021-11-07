@@ -23,6 +23,7 @@
     "dev": "ts-node-dev index.ts",
     "build": "node esbuild.js",
     "start": "node build/index.js",
+    "deploy": "yarn build && gcloud app deploy --project excalidraw-json -q --no-promote",
     "deploy-dev": "yarn build && gcloud app deploy --project excalidraw-json-dev -q"
   }
 }
