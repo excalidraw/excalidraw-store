@@ -52,10 +52,6 @@ app.get("/", (req, res) => {
   res.sendFile(`${process.cwd()}/index.html`);
 });
 
-app.get("/.delme", (req, res) => {
-  res.json({ headers: req.headers, env: process.env });
-});
-
 app.get("/api/v2/:key", corsGet, async (req, res) => {
   const key = req.params.key;
   try {
