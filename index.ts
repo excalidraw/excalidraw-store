@@ -6,15 +6,19 @@ import morgan from "morgan";
 
 const PROJECT_NAME = process.env.GOOGLE_CLOUD_PROJECT || "excalidraw-json-dev";
 const PROD = PROJECT_NAME === "excalidraw-json";
-const LOCAL = !PROD;
+const LOCAL = process.env.NODE_ENV !== "production";
 const BUCKET_NAME = PROD
   ? "excalidraw-json.appspot.com"
   : "excalidraw-json-dev.appspot.com";
 
-const storage = new Storage({
-  projectId: PROJECT_NAME,
-  keyFilename: `${__dirname}/keys/${PROJECT_NAME}.json`,
-});
+const storage = new Storage(
+  LOCAL
+    ? {
+        projectId: PROJECT_NAME,
+        keyFilename: `${__dirname}/keys/${PROJECT_NAME}.json`,
+      }
+    : undefined
+);
 const bucket = storage.bucket(BUCKET_NAME);
 
 const app = express();
