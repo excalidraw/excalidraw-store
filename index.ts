@@ -11,7 +11,7 @@ const LOCAL = process.env.NODE_ENV !== "production";
 const BUCKET_NAME = PROD
   ? "excalidraw-json.appspot.com"
   : "excalidraw-json-dev.appspot.com";
-const FALLBACK_URL = "https://excalidraw-json-dev.uc.r.appspot.com/api/v2/";
+const FALLBACK = "https://20211103t225450-dot-excalidraw-json-dev.appspot.com/";
 
 const storage = new Storage(
   LOCAL
@@ -71,7 +71,7 @@ app.get("/api/v2/:key", corsGet, async (req, res) => {
   } catch (error) {
     // Fall back to old api call.
     try {
-      const response = await fetch(FALLBACK_URL + key);
+      const response = await fetch(FALLBACK + key);
       res.status(200);
       res.setHeader("content-type", "application/octet-stream");
       res.end(Buffer.from(await response.arrayBuffer()));
