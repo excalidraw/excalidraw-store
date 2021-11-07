@@ -1,7 +1,7 @@
-import express from "express";
 import { Storage } from "@google-cloud/storage";
-import { nanoid } from "nanoid";
 import cors from "cors";
+import express from "express";
+import { nanoid } from "nanoid";
 
 const PROJECT_NAME = process.env.GOOGLE_CLOUD_PROJECT || "excalidraw-json-dev";
 const PROD = PROJECT_NAME === "excalidraw-json";
@@ -20,18 +20,14 @@ const storage = new Storage(
 );
 
 const bucket = storage.bucket(BUCKET_NAME);
-
 const app = express();
 
-app.set("json spaces", 2);
-
 let allowOrigins = [
-  "https://www.excalidraw.com",
-  "https://excalidraw.com",
   "excalidraw.vercel.app",
   "https://dai-shi.github.io",
+  "https://excalidraw.com",
+  "https://www.excalidraw.com",
 ];
-
 if (!PROD) {
   allowOrigins.push("http://localhost:");
 }
@@ -51,13 +47,11 @@ const corsPost = cors((req, callback) => {
   callback(null, { origin: isGood });
 });
 
-app.get("/", (req, res) => {
-  res.sendFile(`${process.cwd()}/index.html`);
-});
+app.get("/", (req, res) => res.sendFile(`${process.cwd()}/index.html`));
 
 app.get("/api/v2/:key", corsGet, async (req, res) => {
-  const key = req.params.key;
   try {
+    const key = req.params.key;
     const file = bucket.file(key);
     await file.getMetadata();
     res.status(200);
@@ -65,19 +59,15 @@ app.get("/api/v2/:key", corsGet, async (req, res) => {
     file.createReadStream().pipe(res);
   } catch (error) {
     console.error(error);
-    res.status(404).json({
-      message: "Could not find the file.",
-    });
+    res.status(404).json({ message: "Could not find the file." });
   }
 });
 
 app.post("/api/v2/post/", corsPost, (req, res) => {
-  const id = nanoid();
   try {
+    const id = nanoid();
     const blob = bucket.file(id);
-    const blobStream = blob.createWriteStream({
-      resumable: false,
-    });
+    const blobStream = blob.createWriteStream({ resumable: false });
 
     blobStream.on("error", (error) => {
       console.error(error);
@@ -99,11 +89,9 @@ app.post("/api/v2/post/", corsPost, (req, res) => {
     });
   } catch (error) {
     console.error(error);
-    res.status(500).json({
-      message: "Could not upload the data.",
-    });
+    res.status(500).json({ message: "Could not upload the data." });
   }
 });
 
 const port = process.env.PORT || 8080;
-app.listen(port, () => console.log("http://localhost:" + port, "dev =", LOCAL));
+app.listen(port, () => console.log(`http://localhost:${port}`));
