@@ -1,0 +1,35 @@
+name: Deploy Dev
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  deploy-dev:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup Node.js 14.x
+        uses: actions/setup-node@v2
+        with:
+          node-version: 14.x
+
+      - name: Install and test
+        run: |
+          yarn --frozen-lockfile
+          yarn test
+          yarn build
+
+      - name: Deploy to App Engine
+        uses: google-github-actions/deploy-appengine@v0.4.0
+        with:
+          deliverables: app.yaml
+          project_id: excalidraw-json-dev
+          credentials: ${{secrets.GCP_SA_DEV_KEY}}
+          promote: true
