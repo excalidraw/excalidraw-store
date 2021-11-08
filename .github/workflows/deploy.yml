@@ -26,5 +26,7 @@ jobs:
       - name: Deploy to App Engine
         uses: google-github-actions/deploy-appengine@v0.4.0
         with:
+          deliverables: app.yaml
+          project_id: excalidraw-json
           credentials: ${{secrets.GCP_SA_KEY}}
-        run: yarn deploy
+          promote: true
