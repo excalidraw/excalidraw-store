@@ -10,6 +10,7 @@ const BUCKET_NAME = PROD
   ? "excalidraw-json.appspot.com"
   : "excalidraw-json-dev.appspot.com";
 
+const FILE_SIZE_LIMIT = 5 * 1024 * 1024;
 const storage = new Storage(
   LOCAL
     ? {
@@ -65,6 +66,7 @@ app.get("/api/v2/:key", corsGet, async (req, res) => {
 
 app.post("/api/v2/post/", corsPost, (req, res) => {
   try {
+    let fileSize = 0;
     const id = nanoid();
     const blob = bucket.file(id);
     const blobStream = blob.createWriteStream({ resumable: false });
@@ -83,6 +85,13 @@ app.post("/api/v2/post/", corsPost, (req, res) => {
 
     req.on("data", (chunk) => {
       blobStream.write(chunk);
+      fileSize += chunk.length;
+      if (fileSize > FILE_SIZE_LIMIT) {
+        blobStream.destroy();
+        return res
+          .status(413)
+          .json({ message: "Data is too large.", max_limit: FILE_SIZE_LIMIT });
+      }
     });
     req.on("end", () => {
       blobStream.end();
