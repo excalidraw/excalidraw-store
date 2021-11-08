@@ -87,10 +87,13 @@ app.post("/api/v2/post/", corsPost, (req, res) => {
       blobStream.write(chunk);
       fileSize += chunk.length;
       if (fileSize > FILE_SIZE_LIMIT) {
+        const error = {
+          message: "Data is too large.",
+          max_limit: FILE_SIZE_LIMIT,
+        };
         blobStream.destroy();
-        return res
-          .status(413)
-          .json({ message: "Data is too large.", max_limit: FILE_SIZE_LIMIT });
+        console.error(error);
+        return res.status(413).json(error);
       }
     });
     req.on("end", () => {
