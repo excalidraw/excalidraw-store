@@ -18,7 +18,7 @@ yarn fix
 yarn test
 ```
 
-## The protocol
+## Protocol
 
 ### POST
 
