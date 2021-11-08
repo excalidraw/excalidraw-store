@@ -9,11 +9,13 @@ Get the [`service key`](https://cloud.google.com/iam/docs/creating-managing-serv
 ### Commands
 
 ```
-yarn start
 yarn dev
+yarn start
 yarn build
 yarn deploy
 yarn deploy:dev
+yarn fix
+yarn test
 ```
 
 ## The protocol
