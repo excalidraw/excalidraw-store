@@ -60,3 +60,11 @@ Example of binary response. If the id is found it will return the data. Otherwis
 ```
 1234567890
 ```
+
+## Tips
+
+### Check how many files are on Google Storage
+
+```
+gsutil du gs://excalidraw-json.appspot.com | wc -l
+```
