@@ -23,7 +23,7 @@
     chalk "^2.0.0"
     js-tokens "^4.0.0"
 
-"@google-cloud/common@^3.7.4":
+"@google-cloud/common@^3.8.1":
   version "3.8.1"
   resolved "https://registry.yarnpkg.com/@google-cloud/common/-/common-3.8.1.tgz#1313c55bb66df88f69bf7c828135fae25fbd2036"
   integrity sha512-FOs3NFU6bDt5mXE7IFpwIeqzLwRZNu9lJYl+bHVNkwmxX/w4VyDZAiGjQHhpV1Ek+muNKlX8HPchxaIxNTuOhw==
@@ -56,12 +56,12 @@
   resolved "https://registry.yarnpkg.com/@google-cloud/promisify/-/promisify-2.0.4.tgz#9d8705ecb2baa41b6b2673f3a8e9b7b7e1abc52a"
   integrity sha512-j8yRSSqswWi1QqUGKVEKOG03Q7qOoZP6/h2zN2YO+F5h2+DHU0bSrHCK9Y7lo2DI9fBd8qGAw795sf+3Jva4yA==
 
-"@google-cloud/storage@5.15.5":
-  version "5.15.5"
-  resolved "https://registry.yarnpkg.com/@google-cloud/storage/-/storage-5.15.5.tgz#b2c564ba41b23d9c64d0bf7a815f20a0adf69b00"
-  integrity sha512-UmTM32Cmoyk9c9u8fvKl8tA954GnM4eZpH9Ji0fyjMGBSwuOLR4SgU/E71hCFRcD6+12l5YTmbowIvb0k6uXEA==
+"@google-cloud/storage@5.15.6":
+  version "5.15.6"
+  resolved "https://registry.yarnpkg.com/@google-cloud/storage/-/storage-5.15.6.tgz#96c868def3f166ff0cf40e2f0f1a4bcae388b21f"
+  integrity sha512-3SBDB6zjvsOuS4sx79QhU42c0TOFM1TalK9Rovcc6BtxGuf8zLzTgyLNkmofP1kjpIbdqLWmqmHdkjAUYZvkKg==
   dependencies:
-    "@google-cloud/common" "^3.7.4"
+    "@google-cloud/common" "^3.8.1"
     "@google-cloud/paginator" "^3.0.0"
     "@google-cloud/promisify" "^2.0.0"
     arrify "^2.0.0"
@@ -70,7 +70,7 @@
     date-and-time "^2.0.0"
     duplexify "^4.0.0"
     extend "^3.0.2"
-    gcs-resumable-upload "^3.3.0"
+    gcs-resumable-upload "^3.5.1"
     get-stream "^6.0.0"
     hash-stream-validation "^0.2.2"
     mime "^3.0.0"
@@ -866,7 +866,7 @@ gcp-metadata@^4.2.0:
     gaxios "^4.0.0"
     json-bigint "^1.0.0"
 
-gcs-resumable-upload@^3.3.0:
+gcs-resumable-upload@^3.5.1:
   version "3.5.1"
   resolved "https://registry.yarnpkg.com/gcs-resumable-upload/-/gcs-resumable-upload-3.5.1.tgz#35b08ea42c521b06ff002df85bcab00c4ade72d9"
   integrity sha512-yq8h+z2zx9pUUdho07ORfNkrzlXNZTXi1fnqf0K1oh8VwleQjRq/2zgkN88MYDpXlaykvzvqbWJGq/78nufuJg==
