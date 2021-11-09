@@ -16,7 +16,7 @@
     "typescript": "4.4.4"
   },
   "dependencies": {
-    "@google-cloud/storage": "5.15.5",
+    "@google-cloud/storage": "5.15.6",
     "cors": "2.8.5",
     "express": "4.17.1",
     "nanoid": "3.1.30"
