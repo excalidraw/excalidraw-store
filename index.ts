@@ -10,7 +10,7 @@ const BUCKET_NAME = PROD
   ? "excalidraw-json.appspot.com"
   : "excalidraw-json-dev.appspot.com";
 
-const FILE_SIZE_LIMIT = 5 * 1024 * 1024;
+const FILE_SIZE_LIMIT = 2 * 1024 * 1024;
 const storage = new Storage(
   LOCAL
     ? {
