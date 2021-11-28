@@ -36,7 +36,7 @@
     "fix": "yarn prettier --write",
     "prepare": "husky install",
     "prettier": "prettier \"**/*.{ts,js,json,md,html,yml}\" --ignore-path=.gitignore",
-    "start": "node build/index.js",
+    "start": "node index.js",
     "test": "yarn prettier --list-different"
   }
 }
