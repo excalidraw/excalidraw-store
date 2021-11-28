@@ -1,6 +1,6 @@
 require("esbuild").buildSync({
   entryPoints: ["index.ts"],
-  outfile: "build/index.js",
+  outfile: "index.js",
   bundle: true,
   platform: "node",
 });
