@@ -2,8 +2,6 @@ import { Storage } from "@google-cloud/storage";
 import cors from "cors";
 import express from "express";
 import { nanoid } from "nanoid";
-import favicon from "serve-favicon";
-import * as path from "path";
 
 const PROJECT_NAME = process.env.GOOGLE_CLOUD_PROJECT || "excalidraw-json-dev";
 const PROD = PROJECT_NAME === "excalidraw-json";
@@ -50,7 +48,6 @@ const corsPost = cors((req, callback) => {
   callback(null, { origin: isGood });
 });
 
-app.use(favicon(path.join(__dirname, "favicon.ico")));
 app.get("/", (req, res) => res.sendFile(`${process.cwd()}/index.html`));
 
 app.get("/api/v2/:key", corsGet, async (req, res) => {
