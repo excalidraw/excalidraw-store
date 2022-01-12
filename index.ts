@@ -5,14 +5,15 @@ import { nanoid } from "nanoid";
 import favicon from "serve-favicon";
 import * as path from "path";
 
+const PROD = process.env.NODE_ENV === "production";
+
 require("dotenv").config(
-  process.env.NODE_ENV !== "development"
+  PROD
     ? { path: ".env.production" }
     : { path: ".env.development" },
 );
 
 const PROJECT_NAME = process.env.GOOGLE_CLOUD_PROJECT || "excalidraw-json-dev";
-const PROD = process.env.NODE_ENV === "production";
 const BUCKET_NAME = process.env.BUCKET_NAME || 'excalidraw-json-dev.appspot.com';
 
 const FILE_SIZE_LIMIT = 2 * 1024 * 1024;
