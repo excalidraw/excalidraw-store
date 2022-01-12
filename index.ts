@@ -5,34 +5,35 @@ import { nanoid } from "nanoid";
 import favicon from "serve-favicon";
 import * as path from "path";
 
+const PROD = process.env.NODE_ENV === "production";
+
+require("dotenv").config(
+  PROD
+    ? { path: ".env.production" }
+    : { path: ".env.development" },
+);
+
 const PROJECT_NAME = process.env.GOOGLE_CLOUD_PROJECT || "excalidraw-json-dev";
-const PROD = PROJECT_NAME === "excalidraw-json";
-const LOCAL = process.env.NODE_ENV !== "production";
-const BUCKET_NAME = PROD
-  ? "excalidraw-json.appspot.com"
-  : "excalidraw-json-dev.appspot.com";
+const BUCKET_NAME = process.env.BUCKET_NAME || 'excalidraw-json-dev.appspot.com';
+const API_ENDPOINT = process.env.API_ENDPOINT || 'storage.google.com';
 
 const FILE_SIZE_LIMIT = 2 * 1024 * 1024;
 const storage = new Storage(
-  LOCAL
-    ? {
+  PROD
+    ? undefined : {
+        apiEndpoint: API_ENDPOINT,
         projectId: PROJECT_NAME,
         keyFilename: `${__dirname}/keys/${PROJECT_NAME}.json`,
       }
-    : undefined
 );
 
 const bucket = storage.bucket(BUCKET_NAME);
 const app = express();
 
-let allowOrigins = [
-  "excalidraw.vercel.app",
-  "https://dai-shi.github.io",
-  "https://excalidraw.com",
-  "https://www.excalidraw.com",
-];
-if (!PROD) {
-  allowOrigins.push("http://localhost:");
+let allowOrigins = ['http://localhost:'];
+
+if (process.env.ALLOW_ORIGINS !== undefined) {
+  allowOrigins = process.env.ALLOW_ORIGINS.toString().split(',');
 }
 
 const corsGet = cors();
@@ -80,9 +81,10 @@ app.post("/api/v2/post/", corsPost, (req, res) => {
     });
 
     blobStream.on("finish", async () => {
+      
       res.status(200).json({
         id,
-        data: `${LOCAL ? "http" : "https"}://${req.get("host")}/api/v2/${id}`,
+        data: `${req.protocol}://${req.get("host")}/api/v2/${id}`,
       });
     });
 
@@ -109,4 +111,6 @@ app.post("/api/v2/post/", corsPost, (req, res) => {
 });
 
 const port = process.env.PORT || 8080;
-app.listen(port, () => console.log(`http://localhost:${port}`));
+const bind_address = process.env.BIND_ADDRESS || 'localhost';
+
+app.listen(port, () => console.log(`http://${bind_address}:${port}`));
