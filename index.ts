@@ -15,11 +15,13 @@ require("dotenv").config(
 
 const PROJECT_NAME = process.env.GOOGLE_CLOUD_PROJECT || "excalidraw-json-dev";
 const BUCKET_NAME = process.env.BUCKET_NAME || 'excalidraw-json-dev.appspot.com';
+const API_ENDPOINT = process.env.API_ENDPOINT || 'storage.google.com';
 
 const FILE_SIZE_LIMIT = 2 * 1024 * 1024;
 const storage = new Storage(
   PROD
     ? undefined : {
+        apiEndpoint: API_ENDPOINT,
         projectId: PROJECT_NAME,
         keyFilename: `${__dirname}/keys/${PROJECT_NAME}.json`,
       }
