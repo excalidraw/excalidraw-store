@@ -1,3 +1,5 @@
+> this repo replaces a previous implementation in https://github.com/excalidraw/excalidraw-json
+
 # Excalidraw Store
 
 The server that stores all the encrypted sharable drawings from [Excalidraw](https://excalidraw.com) on Google Storage.
