@@ -30,6 +30,7 @@ let allowOrigins = [
   "https://dai-shi.github.io",
   "https://excalidraw.com",
   "https://www.excalidraw.com",
+  "https://math.preview.excalidraw.com",
 ];
 if (!PROD) {
   allowOrigins.push("http://localhost:");
