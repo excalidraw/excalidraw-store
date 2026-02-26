@@ -1,1 +1,2 @@
 runtime: nodejs20
+service_account: gcp-sa-dev-key@excalidraw-json-dev.iam.gserviceaccount.com
