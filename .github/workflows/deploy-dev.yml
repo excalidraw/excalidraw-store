@@ -24,10 +24,15 @@ jobs:
           yarn test
           yarn build
 
-      - name: Deploy to App Engine
-        uses: google-github-actions/deploy-appengine@v0.4.0
+      - id: "auth"
+        uses: "google-github-actions/auth@v3"
+        with:
+          credentials_json: ${{ secrets.GCP_SA_DEV_KEY }}
+          service_account: "gcp-sa-dev-key@excalidraw-json-dev.iam.gserviceaccount.com"
+
+      - id: "deploy"
+        uses: "google-github-actions/deploy-appengine@v3"
         with:
           deliverables: app.yaml
           project_id: excalidraw-json-dev
-          credentials: ${{secrets.GCP_SA_DEV_KEY}}
           promote: true
