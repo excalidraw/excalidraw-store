@@ -8,6 +8,16 @@ The server that stores all the encrypted sharable drawings from [Excalidraw](htt
 
 Get the [`service key`](https://cloud.google.com/iam/docs/creating-managing-service-account-keys) as JSON and store it under `keys` directory with the name of the project ID.
 
+### Environment Variables
+
+| Variable                   | Description                                      | Default Value                                                                   | Required |
+| -------------------------- | ------------------------------------------------ | ------------------------------------------------------------------------------- | -------- |
+| `GOOGLE_CLOUD_PROJECT`     | Google Cloud project ID                          | `excalidraw-json-dev`                                                           | No       |
+| `GOOGLE_CLOUD_BUCKET_NAME` | Google Cloud Storage bucket name                 | `excalidraw-json.appspot.com` (prod) or `excalidraw-json-dev.appspot.com` (dev) | No       |
+| `NODE_ENV`                 | Environment mode                                 | -                                                                               | No       |
+| `ALLOW_ORIGINS`            | Comma-separated list of allowed origins for CORS | Default allowed origins list                                                    | No       |
+| `PORT`                     | Port number for the server                       | `8080`                                                                          | No       |
+
 ### Commands
 
 ```
